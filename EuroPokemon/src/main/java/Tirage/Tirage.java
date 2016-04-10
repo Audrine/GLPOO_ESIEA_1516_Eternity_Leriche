@@ -9,18 +9,16 @@ public class Tirage {
 	public Tirage() {
 		// TODO Auto-generated constructor stub
 	}
-	
 	public ArrayList<Integer> getComplementaire() {
 		return complementaire;
 	}
 	public ArrayList<Integer> getNumeros() {
 		return numeros;
 	}
-	public void setComplémentaire(ArrayList<Integer> complémentaire) {
+	public void setComplementaire(ArrayList<Integer> complementaire) {
 		this.complementaire = complementaire;
 	}
 	public void setNumeros(ArrayList<Integer> numeros) {
 		this.numeros = numeros;
-		
 	}
 }
