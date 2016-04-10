@@ -1,7 +1,5 @@
 package Pokemon;
-
 import java.util.ArrayList;
-
 import Tirage.Tirage;
 
 public abstract class  Pokemon {
