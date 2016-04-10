@@ -5,5 +5,6 @@ public abstract class  Pokemon {
 	int attaque;
 	int défense;
 	int effet;
+	int test; 
 	
 }
