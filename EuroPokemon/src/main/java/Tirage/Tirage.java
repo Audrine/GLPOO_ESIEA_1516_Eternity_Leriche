@@ -21,5 +21,6 @@ public class Tirage {
 	}
 	public void setNumeros(ArrayList<Integer> numeros) {
 		this.numeros = numeros;
+		
 	}
 }
