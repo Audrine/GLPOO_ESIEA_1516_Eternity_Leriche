@@ -1,6 +1,6 @@
 package Pokemon;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import Tirage.Tirage;
 
@@ -54,7 +54,7 @@ public abstract class  Pokemon {
 	}
 	
 	public void setCapacite(Tirage tirage){
-		ArrayList<Integer> numeros = tirage.getNumeros();	
+		List<Integer> numeros = tirage.getNumeros();	
 		this.setDefense(numeros.get(0)+numeros.get(1));
 		this.setAttaque(numeros.get(2)+numeros.get(3));
 		this.setEffet(numeros.get(4));	

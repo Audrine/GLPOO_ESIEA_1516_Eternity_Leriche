@@ -20,7 +20,7 @@ public class ReaderEuroMillionTest extends TestCase{
 	public void testReaderCsvEuroMillion() throws IOException{
 		final String fileName = FILE_NAME;
 		final File file = ReaderEuroMillion.getResource(fileName);
-		int nombreDeLigne = 229; 
+		int nombreDeLigne = 228; 
 	    List<String> lines = ReaderEuroMillion.readFile(file);
 	    Assert.assertEquals(nombreDeLigne, lines.size());
 	}

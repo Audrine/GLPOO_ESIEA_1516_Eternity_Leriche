@@ -62,7 +62,7 @@ public class ReaderEuroMillion {
 		 * 
 		 */
 		 Random rand = new Random(); 
-		 int randLigne = rand.nextInt(229 - 2 + 1) + 2;
+		 int randLigne = rand.nextInt(228 - 1 + 1) + 2;
 		 List<Integer> resultat = new ArrayList<Integer>(); 
 		 // On prend un ligne au hasard
 		 String ligne = listeLigneEuroMillion.get(randLigne);
