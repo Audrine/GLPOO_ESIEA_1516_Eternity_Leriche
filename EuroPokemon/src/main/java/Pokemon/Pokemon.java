@@ -8,7 +8,10 @@ public abstract class  Pokemon {
 	int id;
 	int attaque;
 	int defense;
-	int effet; 
+	int effet;
+	String nom; 
+	String type; 
+	String image; 
 	
 	
 	public Pokemon() {
