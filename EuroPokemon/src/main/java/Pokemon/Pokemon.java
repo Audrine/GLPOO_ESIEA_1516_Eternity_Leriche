@@ -1,20 +1,32 @@
 package Pokemon;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import ReaderCSV.ReaderCsv;
 import Tirage.Tirage;
 
 public abstract class  Pokemon {
-	int id;
-	int attaque;
-	int defense;
-	int effet;
-	String nom; 
-	String type; 
-	String image; 
+	private int id;
+	private int attaque;
+	private int defense;
+	private int effet;
+	private String nom; 
+	private String type; 
+	private String image; 
+	private final static String CSV_POKEMON = "resources/csv/pokemon.csv";
 	
 	
 	public Pokemon() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Pokemon(int id, String nom, String type, String image) {
+		this.id = id; 
+		this.nom = nom; 
+		this.type = type; 
+		this.image = image; 
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -61,6 +73,31 @@ public abstract class  Pokemon {
 		this.setDefense(numeros.get(0)+numeros.get(1));
 		this.setAttaque(numeros.get(2)+numeros.get(3));
 		this.setEffet(numeros.get(4));	
+	}
+	public List<Pokemon> ImportPokemon() throws IOException{
+		List<Pokemon> resultat = new ArrayList<Pokemon>();
+		List<String> listCsvPokemon= ReaderCsv.readFile(ReaderCsv.getResource(CSV_POKEMON));
+		
+		while(listCsvPokemon.size() != 1){
+			String[] line = listCsvPokemon.get(1).split(";");
+			switch(line[2]){
+				case "ELECTRIK":
+					resultat.add(new Electrik(Integer.parseInt(line[0]), line[1], line[2], line[3])); 
+					break;
+				case "EAU":
+					resultat.add(new Eau(Integer.parseInt(line[0]), line[1], line[2], line[3])); 
+					break;
+				case "FEU":
+					resultat.add(new Feu(Integer.parseInt(line[0]), line[1], line[2], line[3])); 
+					break;
+				case "GLACE":
+					resultat.add(new Glace(Integer.parseInt(line[0]), line[1], line[2], line[3])); 
+					break;
+			}
+		}
+		
+		return resultat; 
+		
 	}
 }
 
