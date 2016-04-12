@@ -8,7 +8,7 @@ public class Electrik extends Pokemon {
 	}
 
 	@Override
-	void effet() {
+	public void effet() {
 		// TODO Auto-generated method stub
 		
 	}

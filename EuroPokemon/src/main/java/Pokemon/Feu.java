@@ -6,7 +6,7 @@ public class Feu extends Pokemon {
 		super(id, nom, type, image); 
 	}
 	@Override
-	void effet() {
+	public void effet() {
 		// TODO Auto-generated method stub
 		
 	}

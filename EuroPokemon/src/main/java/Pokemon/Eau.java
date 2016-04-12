@@ -6,8 +6,8 @@ public class Eau extends Pokemon{
 		super(id, nom, type, image); 
 	}
 	@Override
-	void effet() {
-		// TODO Auto-generated method stub
+	public void effet() {
+		
 		
 	}
 
