@@ -7,8 +7,7 @@ public class Glace extends Pokemon {
 	}
 	@Override
 	public void effet() {
-		// TODO Auto-generated method stub
-		
+		setAttaque(getAttaque()+getEffet());
 	}
 
 }

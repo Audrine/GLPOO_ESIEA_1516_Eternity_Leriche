@@ -7,8 +7,7 @@ public class Eau extends Pokemon{
 	}
 	@Override
 	public void effet() {
-		
-		
+		setDefense(getDefense()+getEffet());	
 	}
 
 }

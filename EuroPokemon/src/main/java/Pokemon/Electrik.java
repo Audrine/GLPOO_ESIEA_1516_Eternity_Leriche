@@ -9,8 +9,7 @@ public class Electrik extends Pokemon {
 
 	@Override
 	public void effet() {
-		// TODO Auto-generated method stub
-		
+		setDefense(getDefense()+getEffet());
 	}
 
 }

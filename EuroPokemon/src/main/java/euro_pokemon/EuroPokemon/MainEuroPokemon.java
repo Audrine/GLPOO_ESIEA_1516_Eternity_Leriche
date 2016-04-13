@@ -1,22 +1,17 @@
 package euro_pokemon.EuroPokemon;
 
-import java.io.IOException;
-import java.util.List;
+import javax.swing.JFrame;
 
-import Pokemon.Pokemon;
+import Affichage.Fenetre;
 
 public class MainEuroPokemon {
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
-		try {
-			List<Pokemon> list = Pokemon.ImportPokemon();
-			Pokemon test = Pokemon.selectPokemon(1, list);
-			System.out.println("Le pokemon choisi est "+test.getNom());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		@SuppressWarnings("unused")
+		Fenetre fenetre = new Fenetre();
+		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fenetre.setVisible(true);
 
 	}
 
