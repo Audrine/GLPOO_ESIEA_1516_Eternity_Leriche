@@ -11,11 +11,13 @@ class ImagePanel extends JPanel {
     /**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
-	Image bg = new ImageIcon("resources/images/background.jpeg").getImage();
+	Image bg;
     
-    public ImagePanel() {
+    public ImagePanel(String pathImage) {
     	this.setLayout(null);
+    	bg = new ImageIcon(pathImage).getImage(); 
 	}
     @Override
     public void paintComponent(Graphics g) {
