@@ -1,17 +1,18 @@
 package Affichage;
 
-import java.awt.BorderLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 class ImagePanel extends JPanel {
 	 
-    Image bg = new ImageIcon("resources/images/background.jpg").getImage();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Image bg = new ImageIcon("resources/images/background.jpeg").getImage();
     
     public ImagePanel() {
     	this.setLayout(null);
