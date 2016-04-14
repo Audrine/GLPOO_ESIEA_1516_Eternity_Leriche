@@ -35,6 +35,7 @@ public class Fenetre extends JFrame{
 	final static String NameMenuPrincipal = "menu_principal";
 	final static String NameMenuAide = "menu_aide";
 	final static String NameTirage = "tirage";
+	private boolean joueur = false; 
 	private Joueur j1 = new Joueur(1);
 	private Joueur j2 = new Joueur(2);
 	private JPanel cardLayout; 
@@ -45,12 +46,12 @@ public class Fenetre extends JFrame{
 	private JButton pokemon1 = new JButton();
 	private JButton pokemon2 = new JButton(); 
 	private JTextArea regle= new JTextArea(5,20);
-	private JLabel numeros = new JLabel("Numeros :  ");
-	private JLabel complementaire = new JLabel("Etoile :  ");
+	private JLabel numeros = new JLabel();
+	private JLabel complementaire = new JLabel();
 
-	private JLabel labelValDefense = new JLabel("Def :");
-	private JLabel labelValAttaque = new JLabel("Att :");
-	private JLabel labelValEffet = new JLabel("Eff :");
+	private JLabel labelValDefense = new JLabel();
+	private JLabel labelValAttaque = new JLabel();
+	private JLabel labelValEffet = new JLabel();
 	
 	private JScrollPane scrollPaneRegle = new JScrollPane(regle, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	private JPanel panelAide = new ImagePanel("resources/images/background_1.jpeg");
@@ -83,7 +84,7 @@ public class Fenetre extends JFrame{
 		jeu.setBounds(300 + insets.left, 250 +insets.top, size.width, size.height);
 		jeu.setBackground(Color.WHITE);
 		jeu.setSize(150, 25);
-		jeu.addActionListener(new GoTirage());
+		jeu.addActionListener(new GoTirage1());
 		
 		//Boutton aide 
 		size = aide.getPreferredSize();
@@ -148,8 +149,9 @@ public class Fenetre extends JFrame{
         	((CardLayout) cardLayout.getLayout()).show(cardLayout, NameMenuPrincipal);
         }
     }
-	public  class   GoTirage implements   ActionListener
+	public  class   GoTirage1 implements   ActionListener
     {
+		
         public  void    actionPerformed(ActionEvent e)
         {
         	SwingUtilities.invokeLater(new Runnable() {
@@ -175,8 +177,8 @@ public class Fenetre extends JFrame{
         				String numerosString = String.join("  ", numerosListString);
         				String complementaireString = String.join("  ", complementaireListString);
         				
-        				numeros.setText(numeros.getText()+numerosString);
-        				complementaire.setText(complementaire.getText()+complementaireString);
+        				numeros.setText("Numeros : "+numerosString);
+        				complementaire.setText("Complementaire : "+complementaireString);
         				Insets insets = panelTirage.getInsets(); 
         				Dimension size = numeros.getPreferredSize();
         				numeros.setBounds(250 + insets.left, 380 +insets.top, size.width, size.height);
@@ -184,9 +186,9 @@ public class Fenetre extends JFrame{
         				complementaire.setBounds(430 + insets.left, 380 +insets.top, size.width, size.height);
         				
         				//Set des valeurs 
-        				labelValAttaque.setText(labelValAttaque.getText()+String.valueOf(tmp.getAttaque()));
-        				labelValDefense.setText(labelValDefense.getText()+String.valueOf(tmp.getDefense()));
-        				labelValEffet.setText(labelValEffet.getText()+String.valueOf(tmp.getEffet()));
+        				labelValAttaque.setText("Att : "+String.valueOf(tmp.getAttaque()));
+        				labelValDefense.setText("Def : "+String.valueOf(tmp.getDefense()));
+        				labelValEffet.setText("Eff : "+String.valueOf(tmp.getEffet()));
         				
         				//Positionnement des valeur
         				size = labelValAttaque.getPreferredSize();
@@ -200,14 +202,25 @@ public class Fenetre extends JFrame{
         				List<Pokemon> choix = new ArrayList<Pokemon>(); 
         				choix = Joueur.getPokemons(tirage.getComplementaire(), Pokemon.ImportPokemon());
         				pokemon1.setText(choix.get(0).getNom());
-        				pokemon2.setText(choix.get(1).getNom()); 
+        				pokemon1.setActionCommand(choix.get(0).getNom()); 
+        				pokemon1.addActionListener(new GoTirage2(choix.get(0), tirage));
+        				pokemon2.setText(choix.get(1).getNom());
+        				pokemon2.setActionCommand(choix.get(1).getNom()); 
+        				pokemon2.addActionListener(new GoTirage2(choix.get(1), tirage));
         				size = pokemon1.getPreferredSize();
         				pokemon1.setBounds(250 + insets.left, 170 +insets.top, size.width, size.height);
         				size = pokemon2.getPreferredSize();
         				pokemon2.setBounds(430 + insets.left, 170 +insets.top, size.width, size.height);
-        				//Affichage Pokemon 
+        				//Affichage Pokemon
+        				imgPokemon1.setIcon(new ImageIcon(choix.get(0).getImage()));
+        				size = imgPokemon1.getPreferredSize();
+        				imgPokemon1.setBounds(250 + insets.left, 230 +insets.top, size.width, size.height);
+        				imgPokemon2.setIcon(new ImageIcon(choix.get(1).getImage()));
+        				size = imgPokemon2.getPreferredSize();
+        				imgPokemon2.setBounds(430 + insets.left, 230 +insets.top, size.width, size.height);
         				((CardLayout) cardLayout.getLayout()).show(cardLayout, NameTirage);
-        			} catch (IOException e1) {
+        				Thread.sleep(200);
+        			} catch (IOException | InterruptedException e1) {
         				// TODO Auto-generated catch block
         				e1.printStackTrace();
         			}
@@ -215,5 +228,114 @@ public class Fenetre extends JFrame{
         	}); 	        	
         }
     }
+	public  class   GoTirage2 implements   ActionListener
+    {
+		private Pokemon pokemon;
+		private Tirage tirage;
+		public GoTirage2(Pokemon pokemon, Tirage tirage) {
+			this.pokemon = pokemon; 
+			this.tirage = tirage;
+		}
+        public  void    actionPerformed(ActionEvent e)
+        {
+        	if(e.getActionCommand() == pokemon.getNom()){
+				pokemon.setCapacite(tirage);
+				j2.setPokemon(pokemon);
+				System.out.println("Pokemon Joueur 1 : "+pokemon.getNom());
+			}
+        	SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                	Tirage tirage = new Tirage();
+                	Pokemon tmp = new Eau(); 
+                	try {
+        				List<Integer> listTirage= Tirage.randTirage();
+        				tirage.setNumeros(Tirage.CreatListNumero(listTirage));
+        				tirage.setComplementaire(Tirage.CreatListComplementaire(listTirage));
+        				tmp.setCapacite(tirage);
+        				
+        				//Affichage du tirage
+        				List<String> numerosListString = new ArrayList<String>(tirage.getNumeros().size()); 
+        				for (Integer myInt : tirage.getNumeros()) { 
+        					numerosListString.add(String.valueOf(myInt)); 
+        				}
+        				
+        				List<String> complementaireListString = new ArrayList<String>(tirage.getComplementaire().size()); 
+        				for (Integer myInt : tirage.getComplementaire()) { 
+        					complementaireListString.add(String.valueOf(myInt)); 
+        				}
+        				String numerosString = String.join("  ", numerosListString);
+        				String complementaireString = String.join("  ", complementaireListString);
+        				
+        				numeros.setText("Numeros : "+numerosString);
+        				complementaire.setText("Complementaire : "+complementaireString);
+        				Insets insets = panelTirage.getInsets(); 
+        				Dimension size = numeros.getPreferredSize();
+        				numeros.setBounds(250 + insets.left, 380 +insets.top, size.width, size.height);
+        				size = complementaire.getPreferredSize();
+        				complementaire.setBounds(430 + insets.left, 380 +insets.top, size.width, size.height);
+        				
+        				//Set des valeurs 
+        				labelValAttaque.setText("Att : "+String.valueOf(tmp.getAttaque()));
+        				labelValDefense.setText("Def : "+String.valueOf(tmp.getDefense()));
+        				labelValEffet.setText("Eff : "+String.valueOf(tmp.getEffet()));
+        				
+        				//Positionnement des valeur
+        				size = labelValAttaque.getPreferredSize();
+        				labelValAttaque.setBounds(290 + insets.left, 100 +insets.top, size.width, size.height);
+        				size = labelValDefense.getPreferredSize();
+        				labelValDefense.setBounds(360 + insets.left, 100 +insets.top, size.width, size.height);
+        				size = labelValEffet.getPreferredSize();
+        				labelValEffet.setBounds(430 + insets.left, 100 +insets.top, size.width, size.height);
+        				List<Pokemon> choix = new ArrayList<Pokemon>(); 
+        				choix = Joueur.getPokemons(tirage.getComplementaire(), Pokemon.ImportPokemon());
+        				pokemon1.setText(choix.get(0).getNom());
+        				pokemon1.setActionCommand(choix.get(0).getNom()); 
+        				pokemon1.addActionListener(new GoGame(choix.get(0), tirage));
+        				pokemon2.setText(choix.get(1).getNom());
+        				pokemon2.setActionCommand(choix.get(1).getNom()); 
+        				pokemon2.addActionListener(new GoGame(choix.get(1), tirage));
+        				size = pokemon1.getPreferredSize();
+        				pokemon1.setBounds(250 + insets.left, 170 +insets.top, size.width, size.height);
+        				size = pokemon2.getPreferredSize();
+        				pokemon2.setBounds(430 + insets.left, 170 +insets.top, size.width, size.height);
+        				//Affichage Pokemon
+        				imgPokemon1.setIcon(new ImageIcon(choix.get(0).getImage()));
+        				size = imgPokemon1.getPreferredSize();
+        				imgPokemon1.setBounds(250 + insets.left, 230 +insets.top, size.width, size.height);
+        				imgPokemon2.setIcon(new ImageIcon(choix.get(1).getImage()));
+        				size = imgPokemon2.getPreferredSize();
+        				imgPokemon2.setBounds(430 + insets.left, 230 +insets.top, size.width, size.height);
+        				Thread.sleep(200);
+        			} catch (IOException | InterruptedException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+                }
+        	}); 	         	
+        }
+    }
+	
+	public  class   GoGame implements   ActionListener
+    {
+		private Pokemon pokemon;
+		private Tirage tirage;
+		
+		public GoGame(Pokemon pokemon, Tirage tirage) {
+			this.pokemon = pokemon; 
+			this.tirage = tirage;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getActionCommand() == pokemon.getNom()){
+				pokemon.setCapacite(tirage);
+				j2.setPokemon(pokemon);
+				System.out.println("Pokemon Joueur 2 : "+pokemon.getNom());
+			}
+			// TODO Auto-generated method stub
+			((CardLayout) cardLayout.getLayout()).show(cardLayout, NameMenuPrincipal);
+		}
+		
+    }
+	
 
 }

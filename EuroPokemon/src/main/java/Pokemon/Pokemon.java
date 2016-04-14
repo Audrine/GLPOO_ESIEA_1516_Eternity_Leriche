@@ -75,6 +75,9 @@ public abstract class  Pokemon {
 	public void attaquer(Pokemon pokemon){
 		pokemon.setDefense(pokemon.getDefense()-this.getAttaque());	
 	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	
 	public void setCapacite(Tirage tirage){
 		List<Integer> numeros = tirage.getNumeros();	
