@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,20 +36,40 @@ public class Fenetre extends JFrame{
 	final static String NameMenuPrincipal = "menu_principal";
 	final static String NameMenuAide = "menu_aide";
 	final static String NameTirage = "tirage";
+	final static String NameEntreJeu = "entre_jeu"; 
+	final static String Game = "game"; 
 	private boolean joueur = false; 
-	private Joueur j1 = new Joueur(1);
-	private Joueur j2 = new Joueur(2);
+	final private Joueur j1 = new Joueur(1);
+	final private Joueur j2 = new Joueur(2);
 	private JPanel cardLayout; 
 	private JButton jeu = new JButton("Jouer");
 	private JButton aide = new JButton("Aide");
 	private JButton quitter = new JButton("Quitter");
 	private JButton retourAide = new JButton("Retour");
 	private JButton pokemon1 = new JButton();
-	private JButton pokemon2 = new JButton(); 
+	private JButton pokemon2 = new JButton();
+	private JButton commencer = new JButton("Commencer"); 
 	private JTextArea regle= new JTextArea(5,20);
 	private JLabel numeros = new JLabel();
 	private JLabel complementaire = new JLabel();
-
+	private JLabel titreTour = new JLabel(); 
+	private JLabel defJ1 = new JLabel(); 
+	private JLabel attJ1 = new JLabel(); 
+	private JLabel effJ1 = new JLabel(); 
+	private JLabel manJ1 = new JLabel(); 
+	private JLabel imgJ1 = new JLabel();
+	private JLabel titreJ1 = new JLabel("Joueur 1");
+	private JLabel defJ2 = new JLabel(); 
+	private JLabel attJ2 = new JLabel(); 
+	private JLabel effJ2 = new JLabel();
+	private JLabel manJ2 = new JLabel();
+	private JLabel imgJ2 = new JLabel();
+	private JLabel titreJ2 = new JLabel("Joueur 2");
+	
+	private JButton attaquer = new JButton("Attaquer"); 
+	private JButton passer = new JButton("Passer");; 
+	private JButton effet = new JButton("Effet");; 
+	
 	private JLabel labelValDefense = new JLabel();
 	private JLabel labelValAttaque = new JLabel();
 	private JLabel labelValEffet = new JLabel();
@@ -56,6 +77,8 @@ public class Fenetre extends JFrame{
 	private JScrollPane scrollPaneRegle = new JScrollPane(regle, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	private JPanel panelAide = new ImagePanel("resources/images/background_1.jpeg");
 	private JPanel panelTirage = new ImagePanel("resources/images/background_1.jpeg");
+	private JPanel game = new ImagePanel("resources/images/background_1.jpeg");
+	private JPanel entreJeu = new ImagePanel("resources/images/background.jpeg");
 	private JPanel menuPrinciaple = new ImagePanel("resources/images/background.jpeg");
 	private JLabel titre = new JLabel(new ImageIcon("resources/images/titre.png"));
 	private JLabel imgPokemon1 = new JLabel();
@@ -117,6 +140,7 @@ public class Fenetre extends JFrame{
 		cardLayout.add(NameMenuAide, panelAide);
 		///////////////FIN //////////////////////////
 		
+		//////////////// Panel Tirage ////////////////////$*
 		panelTirage.add(labelValAttaque);
 		panelTirage.add(labelValDefense);
 		panelTirage.add(labelValEffet);
@@ -128,9 +152,46 @@ public class Fenetre extends JFrame{
 		panelTirage.add(imgPokemon2);
 		
 		cardLayout.add(NameTirage, panelTirage);
-		//////////////// Panel Tirage ////////////////////$*
-		
 		//////////////////FIN/////////////////////////////
+		
+		////////////////Game//////////////////////
+		entreJeu.add(commencer);
+		commencer.addActionListener(new Game());
+		commencer.setActionCommand("Debut");
+		size = commencer.getPreferredSize();
+		commencer.setBounds(320 + insets.left, 250 +insets.top, size.width, size.height);
+		
+		cardLayout.add(NameEntreJeu, entreJeu);
+		/////////////////FIN//////////////////////
+		
+		///////////// Real Game ////////////////////
+		game.add(attJ1); 
+		game.add(defJ1); 
+		game.add(effJ1); 
+		game.add(manJ1);
+		game.add(imgJ1);
+		game.add(titreJ1); 
+		game.add(titreTour); 
+		game.add(attJ2); 
+		game.add(defJ2); 
+		game.add(effJ2); 
+		game.add(manJ2);
+		game.add(imgJ2);
+		game.add(titreJ2);
+		
+		game.add(attaquer);
+		attaquer.setActionCommand("Attaquer");
+		attaquer.addActionListener(new Game());
+		game.add(passer);
+		attaquer.setActionCommand("Passer");
+		passer.addActionListener(new Game());
+		game.add(effet);
+		attaquer.setActionCommand("Effet");
+		effet.addActionListener(new Game());
+		
+		
+		cardLayout.add(Game, game);
+		///////////////////////////////////////////
 		
 		add(cardLayout);
 		
@@ -219,10 +280,9 @@ public class Fenetre extends JFrame{
         				size = imgPokemon2.getPreferredSize();
         				imgPokemon2.setBounds(430 + insets.left, 230 +insets.top, size.width, size.height);
         				((CardLayout) cardLayout.getLayout()).show(cardLayout, NameTirage);
-        				Thread.sleep(200);
-        			} catch (IOException | InterruptedException e1) {
+        			} catch (IOException e) {
         				// TODO Auto-generated catch block
-        				e1.printStackTrace();
+        				e.printStackTrace();
         			}
                 }
         	}); 	        	
@@ -240,11 +300,13 @@ public class Fenetre extends JFrame{
         {
         	if(e.getActionCommand() == pokemon.getNom()){
 				pokemon.setCapacite(tirage);
-				j2.setPokemon(pokemon);
-				System.out.println("Pokemon Joueur 1 : "+pokemon.getNom());
+				j1.setPokemon(pokemon);
+				j1.setNbrManche(0);
+				System.out.println("Pokemon Joueur 1 : "+j1.getPokemon().getNom());
 			}
         	SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
+                	
                 	Tirage tirage = new Tirage();
                 	Pokemon tmp = new Eau(); 
                 	try {
@@ -305,10 +367,10 @@ public class Fenetre extends JFrame{
         				imgPokemon2.setIcon(new ImageIcon(choix.get(1).getImage()));
         				size = imgPokemon2.getPreferredSize();
         				imgPokemon2.setBounds(430 + insets.left, 230 +insets.top, size.width, size.height);
-        				Thread.sleep(200);
-        			} catch (IOException | InterruptedException e1) {
+
+        			} catch (IOException e) {
         				// TODO Auto-generated catch block
-        				e1.printStackTrace();
+        				e.printStackTrace();
         			}
                 }
         	}); 	         	
@@ -329,13 +391,72 @@ public class Fenetre extends JFrame{
 			if(e.getActionCommand() == pokemon.getNom()){
 				pokemon.setCapacite(tirage);
 				j2.setPokemon(pokemon);
+				j2.setNbrManche(0);
 				System.out.println("Pokemon Joueur 2 : "+pokemon.getNom());
 			}
 			// TODO Auto-generated method stub
-			((CardLayout) cardLayout.getLayout()).show(cardLayout, NameMenuPrincipal);
+			((CardLayout) cardLayout.getLayout()).show(cardLayout, NameEntreJeu);
 		}
 		
     }
 	
-
+	public  class   Game implements   ActionListener
+    {
+		public void actionPerformed(ActionEvent e) {
+			((CardLayout) cardLayout.getLayout()).show(cardLayout, Game);
+			if(e.getActionCommand() == "Attaquer" || joueur == false ){
+				j1.getPokemon().attaquer(j2.getPokemon());
+				joueur = true; 
+			}
+			else if(e.getActionCommand() == "Attaquer" || joueur == true){
+				j2.getPokemon().attaquer(j1.getPokemon());
+				joueur = false;
+			}
+			else if(e.getActionCommand() == "Effet" || joueur == false){
+				j1.getPokemon().effet();
+				joueur = true;
+			}
+			else if(e.getActionCommand() == "Effet" || joueur == true){
+				j2.getPokemon().effet();
+				joueur = false;
+			}
+			else if(e.getActionCommand() == "Passer" || joueur == true){
+				joueur = false;
+			}
+			else if(e.getActionCommand() == "Passer" || joueur == false){
+				joueur = true;
+			}
+			SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						Insets insets = game.getInsets(); 
+        				
+                	// Placement joueur 1
+						manJ1.setText(Integer.toString(j1.getNbrManche()));
+						Dimension size = manJ1.getPreferredSize();
+						manJ1.setBounds(100 + insets.left, 150 +insets.top, size.width, size.height);
+						attJ1.setText(String.valueOf(j1.getPokemon().getAttaque()));
+						size = attJ1.getPreferredSize();
+						attJ1.setBounds(100 + insets.left, 170 +insets.top, size.width, size.height);
+						defJ1.setText(String.valueOf(j1.getPokemon().getAttaque()));
+						size = defJ1.getPreferredSize();
+						defJ1.setBounds(100 + insets.left, 190 +insets.top, size.width, size.height);
+						effJ1.setText(String.valueOf(j1.getPokemon().getEffet()));
+						size = effJ1.getPreferredSize();
+						effJ1.setBounds(100 + insets.left, 210 +insets.top, size.width, size.height);
+						imgJ1.setIcon(new ImageIcon(j1.getPokemon().getImage()));
+						
+						// Placement joueur 1
+						manJ2.setText(String.valueOf(j2.getNbrManche()));
+						attJ2.setText(String.valueOf(j2.getPokemon().getAttaque()));
+						defJ2.setText(String.valueOf(j2.getPokemon().getDefense()));
+						effJ2.setText(String.valueOf(j2.getPokemon().getEffet()));
+						imgJ2.setIcon(new ImageIcon(j2.getPokemon().getImage()));
+                }
+			}); 
+			((CardLayout) cardLayout.getLayout()).show(cardLayout, Game);
+                
+                
+			
+		}
+    }
 }

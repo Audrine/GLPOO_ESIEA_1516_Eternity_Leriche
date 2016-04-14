@@ -70,7 +70,7 @@ public abstract class  Pokemon {
 	public String getType() {
 		return type;
 	}
-	abstract void effet(); 
+	public abstract void effet(); 
 	
 	public void attaquer(Pokemon pokemon){
 		pokemon.setDefense(pokemon.getDefense()-this.getAttaque());	
