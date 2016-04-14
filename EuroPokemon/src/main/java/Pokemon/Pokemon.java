@@ -88,7 +88,6 @@ public abstract class  Pokemon {
 		
 		while(listCsvPokemon.size() != 1){
 			String[] line = listCsvPokemon.get(1).split(";");
-			String tmp = line[2];
 			Type tmp1 = Type.valueOf(line[2]); 
 			switch(tmp1){
 				case ELECTRIK:

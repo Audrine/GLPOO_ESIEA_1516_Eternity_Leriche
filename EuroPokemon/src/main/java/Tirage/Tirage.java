@@ -26,6 +26,7 @@ public class Tirage {
 	public void setComplementaire(List<Integer> complementaire) {
 		this.complementaire = complementaire;
 	}
+	
 	public void setNumeros(List<Integer> numeros) {
 		this.numeros = numeros;
 	}
@@ -38,7 +39,7 @@ public class Tirage {
 		resultat.add(listTirage.get(4));
 		return resultat;	
 	}
-	public List<Integer> CreatListComplementaire(List<Integer> listTirage){
+	public static List<Integer> CreatListComplementaire(List<Integer> listTirage){
 		List<Integer> resultat = new ArrayList<Integer>();
 		resultat.add(listTirage.get(5));
 		resultat.add(listTirage.get(6));

@@ -2,7 +2,9 @@ package Pokemon;
 
 public class Electrik extends Pokemon {
 
-
+	public Electrik() {
+		super(); 
+	}
 	public Electrik(int id, String nom, String type, String image) {
 		super(id, nom, type, image); 
 	}

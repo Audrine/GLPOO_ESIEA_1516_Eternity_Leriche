@@ -2,6 +2,9 @@ package Pokemon;
 
 public class Eau extends Pokemon{
 	
+	public Eau() {
+		super(); 
+	}
 	public Eau(int id, String nom, String type, String image) {
 		super(id, nom, type, image); 
 	}

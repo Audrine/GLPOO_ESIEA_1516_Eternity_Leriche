@@ -2,6 +2,9 @@ package Pokemon;
 
 public class Glace extends Pokemon {
 	
+	public Glace() {
+		super(); 
+	}
 	public Glace(int id, String nom, String type, String image) {
 		super(id, nom, type, image); 
 	}
