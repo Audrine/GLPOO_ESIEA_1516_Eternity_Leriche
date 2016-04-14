@@ -72,8 +72,8 @@ public abstract class  Pokemon {
 	}
 	public abstract void effet(); 
 	
-	public void attaquer(Pokemon pokemon){
-		pokemon.setDefense(pokemon.getDefense()-this.getAttaque());	
+	public void attaquer(Pokemon pokemon1){
+		pokemon1.setDefense(pokemon1.getDefense()-this.getAttaque());	
 	}
 	public void setImage(String image) {
 		this.image = image;

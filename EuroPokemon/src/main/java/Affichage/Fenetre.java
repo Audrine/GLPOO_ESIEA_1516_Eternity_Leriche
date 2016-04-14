@@ -37,7 +37,8 @@ public class Fenetre extends JFrame{
 	final static String NameMenuAide = "menu_aide";
 	final static String NameTirage = "tirage";
 	final static String NameEntreJeu = "entre_jeu"; 
-	final static String Game = "game"; 
+	final static String Game = "game";
+	final static String Vainqueur = "game"; 
 	private boolean joueur = false; 
 	final private Joueur j1 = new Joueur(1);
 	final private Joueur j2 = new Joueur(2);
@@ -73,13 +74,14 @@ public class Fenetre extends JFrame{
 	private JLabel labelValDefense = new JLabel();
 	private JLabel labelValAttaque = new JLabel();
 	private JLabel labelValEffet = new JLabel();
-	
+	private JLabel affichageVainqueur = new JLabel();
 	private JScrollPane scrollPaneRegle = new JScrollPane(regle, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	private JPanel panelAide = new ImagePanel("resources/images/background_1.jpeg");
 	private JPanel panelTirage = new ImagePanel("resources/images/background_1.jpeg");
 	private JPanel game = new ImagePanel("resources/images/background_1.jpeg");
 	private JPanel entreJeu = new ImagePanel("resources/images/background.jpeg");
 	private JPanel menuPrinciaple = new ImagePanel("resources/images/background.jpeg");
+	private JPanel vainqueur = new ImagePanel("resources/images/background.jpeg");
 	private JLabel titre = new JLabel(new ImageIcon("resources/images/titre.png"));
 	private JLabel imgPokemon1 = new JLabel();
 	private JLabel imgPokemon2 = new JLabel();
@@ -170,28 +172,49 @@ public class Fenetre extends JFrame{
 		game.add(effJ1); 
 		game.add(manJ1);
 		game.add(imgJ1);
-		game.add(titreJ1); 
-		game.add(titreTour); 
+		titreJ1.setBackground(Color.GRAY);
+		game.add(titreJ1);
+		game.add(titreTour);
+		size = titreJ1.getPreferredSize();
+		titreJ1.setBounds(100 + insets.left, 120 +insets.top, size.width, size.height);
+		
 		game.add(attJ2); 
 		game.add(defJ2); 
 		game.add(effJ2); 
 		game.add(manJ2);
+		titreJ1.setBackground(Color.GRAY);
 		game.add(imgJ2);
 		game.add(titreJ2);
+		size = titreJ2.getPreferredSize();
+		titreJ2.setBounds(520 + insets.left, 120 +insets.top, size.width, size.height);
+		
 		
 		game.add(attaquer);
 		attaquer.setActionCommand("Attaquer");
 		attaquer.addActionListener(new Game());
+		size = attaquer.getPreferredSize();
+		attaquer.setBounds(300 + insets.left, 120 +insets.top, size.width, size.height);
 		game.add(passer);
-		attaquer.setActionCommand("Passer");
+		passer.setActionCommand("Passer");
 		passer.addActionListener(new Game());
+		size = passer.getPreferredSize();
+		passer.setBounds(300 + insets.left, 160 +insets.top, size.width, size.height);
 		game.add(effet);
-		attaquer.setActionCommand("Effet");
+		effet.setActionCommand("Effet");
 		effet.addActionListener(new Game());
+		size = effet.getPreferredSize();
+		effet.setBounds(300 + insets.left, 190 +insets.top, size.width, size.height);
 		
-		
+		game.add(affichageVainqueur); 
+		;
 		cardLayout.add(Game, game);
 		///////////////////////////////////////////
+		
+		
+		////////////////Vainqueur////////////////
+		
+		
+		////////////////////////////////////////
 		
 		add(cardLayout);
 		
@@ -402,61 +425,94 @@ public class Fenetre extends JFrame{
 	
 	public  class   Game implements   ActionListener
     {
-		public void actionPerformed(ActionEvent e) {
-			((CardLayout) cardLayout.getLayout()).show(cardLayout, Game);
-			if(e.getActionCommand() == "Attaquer" || joueur == false ){
+		public void actionPerformed(ActionEvent e) { 
+			if(e.getActionCommand() == "Attaquer" && joueur == false ){
 				j1.getPokemon().attaquer(j2.getPokemon());
-				joueur = true; 
+				joueur = true;
+
 			}
-			else if(e.getActionCommand() == "Attaquer" || joueur == true){
+			else if(e.getActionCommand() == "Attaquer" && joueur == true){
 				j2.getPokemon().attaquer(j1.getPokemon());
 				joueur = false;
 			}
-			else if(e.getActionCommand() == "Effet" || joueur == false){
+			else if(e.getActionCommand() == "Effet" && joueur == false){
 				j1.getPokemon().effet();
 				joueur = true;
 			}
-			else if(e.getActionCommand() == "Effet" || joueur == true){
+			else if(e.getActionCommand() == "Effet" && joueur == true){
 				j2.getPokemon().effet();
 				joueur = false;
 			}
-			else if(e.getActionCommand() == "Passer" || joueur == true){
+			else if(e.getActionCommand() == "Passer" && joueur == true){
 				joueur = false;
 			}
-			else if(e.getActionCommand() == "Passer" || joueur == false){
+			else if(e.getActionCommand() == "Passer" && joueur == false){
 				joueur = true;
 			}
-			SwingUtilities.invokeLater(new Runnable() {
+				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						Insets insets = game.getInsets(); 
         				
                 	// Placement joueur 1
-						manJ1.setText(Integer.toString(j1.getNbrManche()));
+						//manJ1.setText("Manche : "+Integer.toString(j1.getNbrManche()));
 						Dimension size = manJ1.getPreferredSize();
 						manJ1.setBounds(100 + insets.left, 150 +insets.top, size.width, size.height);
-						attJ1.setText(String.valueOf(j1.getPokemon().getAttaque()));
+						attJ1.setText("Attaque : "+String.valueOf(j1.getPokemon().getAttaque()));
 						size = attJ1.getPreferredSize();
 						attJ1.setBounds(100 + insets.left, 170 +insets.top, size.width, size.height);
-						defJ1.setText(String.valueOf(j1.getPokemon().getAttaque()));
+						defJ1.setText("Defense : "+String.valueOf(j1.getPokemon().getDefense()));
 						size = defJ1.getPreferredSize();
 						defJ1.setBounds(100 + insets.left, 190 +insets.top, size.width, size.height);
-						effJ1.setText(String.valueOf(j1.getPokemon().getEffet()));
+						effJ1.setText("Effet : "+String.valueOf(j1.getPokemon().getEffet()));
 						size = effJ1.getPreferredSize();
 						effJ1.setBounds(100 + insets.left, 210 +insets.top, size.width, size.height);
 						imgJ1.setIcon(new ImageIcon(j1.getPokemon().getImage()));
+						size = imgJ1.getPreferredSize();
+						imgJ1.setBounds(170 + insets.left, 150 +insets.top, size.width, size.height);
 						
-						// Placement joueur 1
-						manJ2.setText(String.valueOf(j2.getNbrManche()));
-						attJ2.setText(String.valueOf(j2.getPokemon().getAttaque()));
-						defJ2.setText(String.valueOf(j2.getPokemon().getDefense()));
-						effJ2.setText(String.valueOf(j2.getPokemon().getEffet()));
+						
+						// joueur 2
+						//manJ2.setText("Manche : "+Integer.toString(j2.getNbrManche()));
+						size = manJ2.getPreferredSize();
+						manJ2.setBounds(520 + insets.left , 150 +insets.top, size.width, size.height);
+						attJ2.setText("Attaque : "+String.valueOf(j2.getPokemon().getAttaque()));
+						size = attJ2.getPreferredSize();
+						attJ2.setBounds(520 + insets.left , 170 +insets.top, size.width, size.height);
+						defJ2.setText("Defense : "+String.valueOf(j2.getPokemon().getDefense()));
+						size = defJ2.getPreferredSize();
+						defJ2.setBounds(520 + insets.left, 190 +insets.top, size.width, size.height);
+						effJ2.setText("Effet : "+String.valueOf(j2.getPokemon().getEffet()));
+						size = effJ2.getPreferredSize();
+						effJ2.setBounds(520 + insets.left , 210 +insets.top, size.width, size.height);
 						imgJ2.setIcon(new ImageIcon(j2.getPokemon().getImage()));
+						size = imgJ2.getPreferredSize();
+						imgJ2.setBounds(450 + insets.left, 150 +insets.top, size.width, size.height);
+						
+						if(j1.getPokemon().getDefense() <= 0 || j2.getPokemon().getDefense() <= 0){
+							attaquer.setVisible(false);
+							passer.setVisible(false);
+							effet.setVisible(false);
+							if(j1.getPokemon().getDefense() <= 0){
+								affichageVainqueur.setText("Joueur 2 Gagne !");
+							}else{
+								affichageVainqueur.setText("Joueur 1 Gagne !");
+							}
+							size = affichageVainqueur.getPreferredSize();
+							affichageVainqueur.setBounds(300 + insets.left, 200 +insets.top, size.width, size.height);
+						}
+						//Titre
+						if(joueur == false){
+							titreTour.setText("Tour Joueur 1");
+						}else{
+							titreTour.setText("Tour Joueur 2");
+						}
+						
+						size = titreTour.getPreferredSize();
+						titreTour.setBounds(300 + insets.left, 70 +insets.top, size.width, size.height);
                 }
-			}); 
-			((CardLayout) cardLayout.getLayout()).show(cardLayout, Game);
-                
-                
-			
+				}); 
+				((CardLayout) cardLayout.getLayout()).show(cardLayout, Game);
+			 
 		}
     }
 }
